@@ -18,7 +18,7 @@ public class Customer {
     }
     
     public String statement() {
-    
+        
         double      totalAmount          = 0;
         int         frequentRenterPoints = 0;
         Enumeration rentals              = _rentals.elements();
@@ -54,19 +54,30 @@ public class Customer {
             // add bonus for a two day new release rental
             if ((each.getMovie().getPriceCode() == Movie.NEW_RELEASE) &&
                 (each.getDaysRented() > 1)) {
-                    frequentRenterPoints++;
+                frequentRenterPoints++;
             }
             
             // show figures for this rental
-            result += "\t" + each.getMovie().getTitle() +
-                      "\t" + String.valueOf(thisAmount) + "\n";
+            result += formatting(each.getMovie().getTitle(), thisAmount);
             totalAmount += thisAmount;
         }
         
         // add footer lines
-        result += "Amount owed is " + String.valueOf(totalAmount) + "\n";
-        result += "You earned " + String.valueOf(frequentRenterPoints) +
-                  " frequent renter points";
-        return result;
+        return result += footer(totalAmount, frequentRenterPoints);
     }
+    
+    /*
+     * Helper Methods
+     */
+    private String footer(double amount, int points){
+        return "Amount owed is " + String.valueOf(amount) + "\n" + "You earned " + String.valueOf(points) +" frequent renter points";
+    }
+    
+    private String formatting(String movieTitle, double movieAmount){
+        return "\t" + movieTitle +
+        "\t" + String.valueOf(movieAmount) + "\n";
+    }
+    
 }
+
+
